@@ -17,5 +17,30 @@
         <beans:property name="suffix" value=".jsp"/>
     </beans:bean>
 
-    <context:component-scan base-package="org.zerock.controller"/><!--base package명 수정-->
+<!--  파일업로드를 위한 Bean등록 : 반드시 id="multipartResolver"로 정확하게 지정 -->
+    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- multipartResolver의 프로퍼티 1 :  한글파일명 인코딩   -->
+        <beans:property name="defaultEncoding" value="utf-8"/>
+
+        <!-- multipartResolver의 프로퍼티 2 :  최대 업로드 사이즈 , byte단위 value
+                                             (1024*1024*10)bytes == 104857560bytes  == 10MB  -->
+        <beans:property name="maxUploadSize" value="104857560"/>
+
+        <!-- multipartResolver의 프로퍼티 3 :  파일 하나 당 최대 업로드 사이즈, byte단위 value
+                                             (1024*1024*2)bytes == 2MB -->
+        <beans:property name="maxUploadSizePerFile" value="2097152"/>
+
+        <!-- multipartResolver의 프로퍼티 4 :  임시파일 업로드될 경로
+                                            절대경로 이용 file: 로 시작-->
+        <beans:property name="uploadTempDir" value="file:/Users/kim-yina/Desktop/upload/tmp"/>
+
+        <!-- multipartResolver의 프로퍼티 5 :  메모리상에서 유지하는 최대 크기,
+                                            이 크기 이상은 uploadTempDir로 지정한 경로에 임시파일형태로 저장
+                                            그럼 1MB이하 파일은 임시파일로 물리경로에 저장되지 않고 그이상파일만 저장됨? -->
+        <beans:property name="maxInMemorySize" value="10485756"/>
+
+    </beans:bean>
+
+    <!--base package명 수정-->
+    <context:component-scan base-package="org.zerock.controller"/>
 </beans:beans>

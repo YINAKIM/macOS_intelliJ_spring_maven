@@ -2,9 +2,13 @@ package org.zerock.controller;
 
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.zerock.domain.SampleDTO;
 import org.zerock.domain.TodoDTO;
 
@@ -186,9 +190,57 @@ public class SampleController {
     }
 
 
+    // ResponseEntity - 원하는 HTTP 헤더메세지 가공
+    @GetMapping("ex07")
+    public ResponseEntity<String> ex07(){
+        log.info("/ex07....................");
+
+        String msg = "{\"name\":\"홍길동\"}"; // {"name":"홍길동"}
+
+        HttpHeaders header = new HttpHeaders();
+        header.add("Content-Type","application/json;charset=UTF-8");
+
+        return new ResponseEntity<>(msg,header, HttpStatus.OK);
+        // =>HttpStatus.OK : Status Code 200
+    }
+
+    // 파일업로드 테스트
+    @GetMapping("/exUpload")
+    public void exUpload(){
+        log.info("exUpload...................");
+    }
+
+    //한번에 여러 파일 업로드 --> 지금은 로그로 확인만, 실제 업로드 처리는 part5에서
+    //@RequestMapping(value = "/exUploadPost",method = RequestMethod.POST)
+    @PostMapping("/exUploadPost")
+    public void exUploadPost(ArrayList<MultipartFile> files){
+                                //동일이름으로 여러개 파라미터 존재  ==> 배열로 처리가능
+        files.forEach(file -> {
+            log.info("*************************************");
+            log.info("name : "+file.getOriginalFilename());
+            log.info("name : "+file.getSize());
+        });
+
+        /*
+        [1차에러]
+        로그에는 아무것도 안나오고 URI에는 http://localhost:8001/sample/"/sample/exUploadPost" 라고뜸
+        java.lang.ClassNotFoundException: org.apache.commons.io.IOUtils
+
+        -> 멍청하게 GetMapping 함 ㅋㅋㅋㅋㅋ PostMapping
+
+        [2차에러]
+        jsp에서 경로 고쳐도  http://localhost:8001/sample/"exUploadPost" 뜨고 노매핑 떠서
+        action='' 로 따옴표 바꾸니까 됨....왜? 왜 큰따옴표 못읽어?
+        INFO : org.zerock.controller.SampleController - *************************************
+        INFO : org.zerock.controller.SampleController - name : 스크린샷 2021-05-01 오전 2.22.02.png
+        INFO : org.zerock.controller.SampleController - name : 183816
+        INFO : org.zerock.controller.SampleController - *************************************
+        * */
+    }
 
 
-
-
-
+    @GetMapping("/exex")
+    public void exex(){
+        log.info("exex ********* ");
+    }
 }
