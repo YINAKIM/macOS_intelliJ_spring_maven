@@ -238,9 +238,4 @@ public class SampleController {
         * */
     }
 
-
-    @GetMapping("/exex")
-    public void exex(){
-        log.info("exex ********* ");
-    }
 }

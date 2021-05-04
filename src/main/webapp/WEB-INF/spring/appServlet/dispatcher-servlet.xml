@@ -41,6 +41,12 @@
 
     </beans:bean>
 
-    <!--base package명 수정-->
+
+    <!--base package명 맞추기 -->
+
+
     <context:component-scan base-package="org.zerock.controller"/>
+
+    <!--  예외처리컴포넌트   -->
+    <context:component-scan base-package="org.zerock.exception"/>
 </beans:beans>
