@@ -22,12 +22,19 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/spring/appServlet/dispatcher-servlet.xml</param-value>
         </init-param>
-        <load-on-startup>1</load-on-startup>
+        <init-param><!--404 에러처리-->
+            <param-name>throwExceptionIfNoHandlerFound</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>   <!--load-on-startup 은 servlet태그안에서 맨밑에 위치할것-->
     </servlet>
     <servlet-mapping>
         <servlet-name>appServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+
+
 
     <!--  한글인코딩필터  -->
     <filter>
